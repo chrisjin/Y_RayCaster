@@ -9,13 +9,14 @@ Renderer::Renderer()
 	_vertexbuffer_ori = 0;
 	_modelmat = Identity();
 	_viewmat = Identity();
+	_modelmat = Identity();
 	_projectmat = Identity();
 
 
 	_distance = 1;
 	_origin = Point3D(0, 0, 0);
-	_width = 400;
-	_height = 300;
+	_width = 800;
+	_height = 600;
 	_xstep = 2/(tReal)_width;
 	_ystep = 2 / (tReal)_width;
 	_buffer = new tI32[_width * _height];
@@ -57,7 +58,7 @@ void Renderer::UpdateVertexBuffer()
 		Vertex* varr_ori =(Vertex*) _vertexbuffer_ori->GetBuffer();
 		for (int i = 0; i < _vertexbuffer->GetSize(); i++)
 		{
-			varr[i].pos = varr_ori[i].pos*_viewmat;
+			varr[i].pos = varr_ori[i].pos*_modelmat*_viewmat;
 			varr[i].color = varr_ori[i].color;
 			varr[i].texcoor = varr_ori[i].texcoor;
 		}
@@ -85,7 +86,11 @@ void Renderer::SetProjectTransform(MatR4x4& v)
 {
 	_projectmat = v;
 }
-
+void Renderer::SetModelTransform(MatR4x4& m)
+{
+	_modelmat = m;
+	_is_vertexbufferdirty = 1;
+}
 void Renderer::Update()
 {
 	//DrawTriangleList(TRIANGLELIST,3);

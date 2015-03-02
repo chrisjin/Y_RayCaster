@@ -18,6 +18,7 @@ namespace yewbow
 		
 		Renderer();
 		VertexArray* CreateVertexBuffer(eVertexType type, int num);
+		void SetModelTransform(MatR4x4& m);
 		void SetViewTransform(MatR4x4& v);
 		void SetProjectTransform(MatR4x4& v);
 		tI32* GetBuffer(){ return _buffer; }
@@ -38,7 +39,7 @@ namespace yewbow
 		MatR4x4 _modelmat;
 		MatR4x4 _viewmat;
 		MatR4x4 _projectmat;
-		
+
 		tReal   _distance;
 		tReal   _xstep;
 		tReal   _ystep;
