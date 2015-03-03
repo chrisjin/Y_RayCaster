@@ -1,6 +1,7 @@
 #include"SurfaceShader.h"
 #include"yMath.h"
 #include<math.h>
+#include<stdlib.h>
 using namespace yewbow;
 void TriangleShader::SetTriangle(const Point3D& ori,
 	const Vertex& p1, const Vertex& p2, const Vertex& p3)
@@ -18,8 +19,11 @@ void TriangleShader::SetTriangle(const Point3D& ori,
 	_above = DotProduct(ori - p1.pos, _p1p2Xp1p3);
 }
 
-bool TriangleShader::ComputeTexcoor(const VecR3D& dir, Vertex& output)
+bool TriangleShader::ComputeTexcoor(const VecR3D& _dir, Vertex& output)
 {
+	VecR3D noise(UniformRandomDistribution::GetValue(), 
+		UniformRandomDistribution::GetValue(), UniformRandomDistribution::GetValue());
+	VecR3D dir = _dir + noise;
 	tReal below = DotProduct(dir, _p1p2Xp1p3);
 	if (fabs(below) < 0.00001)
 		return 0;
@@ -27,20 +31,20 @@ bool TriangleShader::ComputeTexcoor(const VecR3D& dir, Vertex& output)
 
 	Point3D intersection = _ori + dir*t;
 	VecR3D _p1p = intersection - _p1.pos;
-	VecR3D _p2p = intersection - _p2.pos;
+	//VecR3D _p2p = intersection - _p2.pos;
 	VecR3D _p1pXp1p2 = CrossProduct(_p1p, _p1p2);
 	VecR3D _p1pXp1p3 = CrossProduct(_p1p, _p1p3);
-	VecR3D _p2pXp2p3 = CrossProduct(_p2p, _p2p3);
+	//VecR3D _p2pXp2p3 = CrossProduct(_p2p, _p2p3);
 
-	tReal p3sameside = DotProduct(_p1pXp1p2,_p1p2Xp1p3);
-	if (p3sameside >= 0)
-		return 0;
-	tReal p2sameside = DotProduct(_p1pXp1p3, _p1p2Xp1p3);
-	if (p2sameside <= 0)
-		return 0;
-	tReal p1sameside = DotProduct(_p2pXp2p3, _p2p1Xp2p3);
-	if (p1sameside <= 0)
-		return 0;
+	//tReal p3sameside = DotProduct(_p1pXp1p2,_p1p2Xp1p3);
+	//if (p3sameside >= 0)
+	//	return 0;
+	//tReal p2sameside = DotProduct(_p1pXp1p3, _p1p2Xp1p3);
+	//if (p2sameside <= 0)
+	//	return 0;
+	//tReal p1sameside = DotProduct(_p2pXp2p3, _p2p1Xp2p3);
+	//if (p1sameside <= 0)
+	//	return 0;
 	
 	tReal alpha;
 	tReal beta;
@@ -54,8 +58,11 @@ bool TriangleShader::ComputeTexcoor(const VecR3D& dir, Vertex& output)
 			beta = -_p1pXp1p2.c[i] / factor;
 			alpha = _p1pXp1p3.c[i] / factor;
 			validflag = 1;
+			break;
 		}
 	}
+	if (beta < 0 || alpha < 0 || (beta + alpha)>1)
+		return 0;
 	if (validflag == 0)
 		return 0;
 

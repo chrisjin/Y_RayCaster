@@ -1,5 +1,7 @@
 #pragma once
 #include"yVertexArray.h"
+#include<random>
+using namespace std;
 namespace yewbow
 {
 	class TriangleShader
@@ -22,6 +24,7 @@ namespace yewbow
 		VecR3D _p1p3;
 		VecR3D _p2p3;
 		tReal _above;
+
 	};
 
 }

@@ -1,6 +1,8 @@
 #include"yMath.h"
 #include<math.h>
 #include<stdio.h>
+#include<random>
+using namespace std;
 VecR4D operator*(VecR4D& v, MatR4x4& m)
 {
 	VecR4D ret;
@@ -162,5 +164,14 @@ namespace yewbow
 			v1.x*v2.y - v1.y*v2.x };
 
 		return ret;
+	}
+	std::random_device rd;
+	std::mt19937_64 mt(rd());
+	std::uniform_real_distribution<double> distribution(0, 3.1415926 / 300.0);
+
+
+	tReal UniformRandomDistribution::GetValue()
+	{
+		return distribution(mt);
 	}
 }

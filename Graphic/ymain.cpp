@@ -14,7 +14,7 @@ int main(int /*argc*/, char */*argv*/[])
 {
 	
 	Renderer rdr;
-	rdr.SetViewTransform(LookAt(Point3D(1.5,1.5,2.5),Point3D(0,0,0),Point3D(1,0,-1)));
+	rdr.SetViewTransform(LookAt(Point3D(3,3,3),Point3D(0,0,0),Point3D(1,1,-2)));
 	//rdr.SetModelTransform(Translate(VecR3D(0,0,0)));
 	VertexArray* vbuffer;
 	Vertex* varr;

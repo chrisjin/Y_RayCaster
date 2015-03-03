@@ -200,12 +200,13 @@ void Renderer::DrawShaders(vector<TriangleShader*>& shaders)
 				{
 					int xcoor = test.texcoor.x * 64;
 					int ycoor = test.texcoor.y * 64;
-					tReal& zvalue = this->_zbuffer[j*_height + i];
+					int offset = j*_height + i;
+					tReal& zvalue = this->_zbuffer[offset];
 					if (test.pos.z <= zvalue && test.pos.z >= _distance)
 					{
 						Uint32 color = _texture[ycoor * 64 + xcoor];
 						zvalue = test.pos.z;
-						this->_buffer[j*_height + i] = color;
+						this->_buffer[offset] = color;
 					}
 				}
 			}

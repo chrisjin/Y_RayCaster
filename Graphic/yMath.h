@@ -1,6 +1,7 @@
 #pragma once
 #include"yBasic.h"
 #include"yVertexArray.h"
+
 using namespace yewbow;
 VecR4D operator*(VecR4D& v, MatR4x4& m);
 VecR3D operator*(VecR3D& v, MatR4x4& m);
@@ -32,4 +33,12 @@ namespace yewbow
 
 
 	bool TriangleIntersection(const Triangle& tri, const Ray& ray, VecR3D& output);
+
+	class UniformRandomDistribution
+	{
+	public:
+		static tReal GetValue();
+	private:
+
+	};
 }
