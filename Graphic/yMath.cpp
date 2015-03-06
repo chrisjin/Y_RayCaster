@@ -88,13 +88,35 @@ ColorRGBA operator*(const ColorRGBA& v1, tReal a)
 	ColorRGBA ret(v1.c1*a, v1.c2*a, v1.c3*a, v1.c4*a);
 	return ret;
 }
+
+MatR4x4 operator*(const MatR4x4& mat1, const MatR4x4& mat2)
+{
+	MatR4x4 ret;
+	int i, j;
+	for (i = 0; i < 4; i++)
+	{
+		for (j = 0; j < 4; j++)
+		{
+			ret.cc[i][j] = mat1.cc[i][0] * mat2.cc[0][j] + mat1.cc[i][1] * mat2.cc[1][j] + 
+				mat1.cc[i][2] * mat2.cc[2][j] + mat1.cc[i][3] * mat2.cc[3][j];
+		}
+	}
+	return ret;
+}
 namespace yewbow
 {
 	VecR3D Normalize(const VecR3D& normalize)
 	{
 		tReal below = sqrt(normalize.x*normalize.x +
 			normalize.y*normalize.y + normalize.z*normalize.z);
+		if (below == 0)
+			return normalize;
 		return VecR3D(normalize.x / below, normalize.y / below, normalize.z / below);
+	}
+	tReal  Length(const VecR3D& vec)
+	{
+		return sqrt(vec.x*vec.x +
+			vec.y*vec.y + vec.z*vec.z);
 	}
 	bool TriangleIntersection(const Triangle& tri, const Ray& ray, VecR3D& output)
 	{
@@ -167,7 +189,7 @@ namespace yewbow
 	}
 	std::random_device rd;
 	std::mt19937_64 mt(rd());
-	std::uniform_real_distribution<double> distribution(0, 3.1415926 / 300.0);
+	std::uniform_real_distribution<double> distribution(0, 3.1415926 / 20.0);
 
 
 	tReal UniformRandomDistribution::GetValue()

@@ -19,11 +19,11 @@ void TriangleShader::SetTriangle(const Point3D& ori,
 	_above = DotProduct(ori - p1.pos, _p1p2Xp1p3);
 }
 
-bool TriangleShader::ComputeTexcoor(const VecR3D& _dir, Vertex& output)
+bool TriangleShader::ComputeTexcoor(const VecR3D& dir, Vertex& output)
 {
-	VecR3D noise(UniformRandomDistribution::GetValue(), 
-		UniformRandomDistribution::GetValue(), UniformRandomDistribution::GetValue());
-	VecR3D dir = _dir + noise;
+	//VecR3D noise(UniformRandomDistribution::GetValue(),
+	//	UniformRandomDistribution::GetValue(), UniformRandomDistribution::GetValue());
+	//VecR3D dir = _dir +noise ;
 	tReal below = DotProduct(dir, _p1p2Xp1p3);
 	if (fabs(below) < 0.00001)
 		return 0;
@@ -73,5 +73,7 @@ bool TriangleShader::ComputeTexcoor(const VecR3D& _dir, Vertex& output)
 	output.color = (_p2.color - _p1.color)*alpha
 		+ (_p3.color - _p1.color)*beta + _p1.color;
 	output.pos = intersection;
+	output.normal = (_p2.normal - _p1.normal)*alpha
+		+ (_p3.normal - _p1.normal)*beta + _p1.normal;
 	return 1;
 }

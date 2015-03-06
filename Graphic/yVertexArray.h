@@ -18,6 +18,7 @@ namespace yewbow
 		Point3D pos;
 		ColorRGBA color;
 		Point2D texcoor;
+		VecR3D   normal;
 	};
 	class VertexArray
 	{

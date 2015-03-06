@@ -1,62 +1,18 @@
-﻿Build started 3/2/2015 8:31:55 PM.
+﻿Build started 3/6/2015 12:07:31 AM.
      1>Project "C:\Home\WorkPlace\G\Graphic\Graphic\Graphic.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Home\Programs\Visual Studio 2013\VC\bin\CL.exe /c /I"C:\Home\WorkPlace\G\SDL-devel-1.2.15-VC\SDL-1.2.15\include" /Z7 /nologo /W3 /WX- /sdl /O2 /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\main.cpp ..\..\raycaster_flat.cpp ..\..\raycaster_floor.cpp ..\..\raycaster_sprites.cpp quickcg.cpp SurfaceShader.cpp yCamera.cpp ymain.cpp yMath.cpp yRenderer.cpp yScreen.cpp yTransform.cpp yVertexArray.cpp
+         C:\Home\Programs\Visual Studio 2013\VC\bin\CL.exe /c /I"C:\Home\WorkPlace\G\SDL-devel-1.2.15-VC\SDL-1.2.15\include" /Z7 /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /openmp /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt yRenderer.cpp
      1>cl : Command line warning D9007: '/Gm' requires '/Zi or /ZI'; option ignored
-         main.cpp
-         raycaster_flat.cpp
-         raycaster_floor.cpp
-         raycaster_sprites.cpp
-         quickcg.cpp
-     1>quickcg.cpp(248): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(251): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(270): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
-     1>quickcg.cpp(735): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(736): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(737): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(753): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(756): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(757): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(775): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(776): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(777): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(788): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(791): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(795): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(797): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(801): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(803): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(807): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(809): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(824): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(825): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(826): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(845): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(846): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(863): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(864): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(865): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(878): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(879): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(880): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>quickcg.cpp(1162): warning C4244: 'argument' : conversion from 'unsigned long' to 'const unsigned char', possible loss of data
-         SurfaceShader.cpp
-         yCamera.cpp
-         ymain.cpp
-     1>ymain.cpp(13): warning C4138: '*/' found outside of comment
-         yMath.cpp
-     1>yMath.cpp(88): warning C4244: 'argument' : conversion from 'yewbow::tReal' to 'yewbow::tByte', possible loss of data
          yRenderer.cpp
-     1>yRenderer.cpp(194): warning C4018: '<' : signed/unsigned mismatch
-     1>yRenderer.cpp(201): warning C4244: 'initializing' : conversion from 'yewbow::tReal' to 'int', possible loss of data
-     1>yRenderer.cpp(202): warning C4244: 'initializing' : conversion from 'yewbow::tReal' to 'int', possible loss of data
-     1>yRenderer.cpp(233): warning C4018: '<' : signed/unsigned mismatch
-     1>yRenderer.cpp(254): warning C4018: '<' : signed/unsigned mismatch
-         yScreen.cpp
-     1>yScreen.cpp(12): warning C4101: 'a' : unreferenced local variable
-         yTransform.cpp
-         yVertexArray.cpp
-         Generating Code...
+     1>yRenderer.cpp(33): warning C4244: 'initializing' : conversion from 'double' to 'yewbow::tReal', possible loss of data
+     1>yRenderer.cpp(244): warning C4244: 'initializing' : conversion from 'double' to 'yewbow::tReal', possible loss of data
+     1>yRenderer.cpp(245): warning C4244: 'initializing' : conversion from 'double' to 'yewbow::tReal', possible loss of data
+     1>yRenderer.cpp(255): warning C4018: '<' : signed/unsigned mismatch
+     1>yRenderer.cpp(267): warning C4244: 'initializing' : conversion from 'yewbow::tReal' to 'int', possible loss of data
+     1>yRenderer.cpp(268): warning C4244: 'initializing' : conversion from 'yewbow::tReal' to 'int', possible loss of data
+     1>yRenderer.cpp(283): warning C4244: '=' : conversion from 'double' to 'yewbow::tReal', possible loss of data
+     1>yRenderer.cpp(301): warning C4018: '<' : signed/unsigned mismatch
+     1>yRenderer.cpp(322): warning C4018: '<' : signed/unsigned mismatch
        Link:
          C:\Home\Programs\Visual Studio 2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Home\WorkPlace\G\Graphic\Debug\Graphic.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Home\WorkPlace\G\SDL-devel-1.2.15-VC\SDL-1.2.15\lib\x86" SDL.lib SDLmain.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Home\WorkPlace\G\Graphic\Debug\Graphic.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Home\WorkPlace\G\Graphic\Debug\Graphic.lib" /MACHINE:X86 Debug\main.obj
          Debug\raycaster_flat.obj
@@ -71,10 +27,9 @@
          Debug\yScreen.obj
          Debug\yTransform.obj
          Debug\yVertexArray.obj
-     1>MSVCRTD.lib(cinitexe.obj) : warning LNK4098: defaultlib 'msvcrt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
          Graphic.vcxproj -> C:\Home\WorkPlace\G\Graphic\Debug\Graphic.exe
      1>Done Building Project "C:\Home\WorkPlace\G\Graphic\Graphic\Graphic.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:04.78
+Time Elapsed 00:00:00.97

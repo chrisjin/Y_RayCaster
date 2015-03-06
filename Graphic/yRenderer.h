@@ -25,17 +25,19 @@ namespace yewbow
 		void Update();
 		tI32 GetWidth(){ return _width; }
 		tI32 GetHeight(){ return _height; }
-
+		void Begin();
 		void DrawPrimitive(ePrimitiveType type,int vertexnum);
 	private:
+		inline void SetDirty();
+		inline void RemoveDirty();
 		void UpdateVertexBuffer();
 		void DrawTriangleList(int vertexnum);
 		void DrawRectangleList(int vertexnum);
 		void DrawShaders(vector<TriangleShader*>& shaders);
 		VertexArray* _vertexbuffer;
 		VertexArray* _vertexbuffer_ori;
-		bool         _is_vertexbufferdirty;
-
+		volatile bool         _is_vertexbufferdirty;
+		volatile bool         _is_screenbufferdirty;
 		MatR4x4 _modelmat;
 		MatR4x4 _viewmat;
 		MatR4x4 _projectmat;
@@ -53,7 +55,9 @@ namespace yewbow
 		TriangleShader _shader;
 
 		Point3D _origin;
-	};
 
+		Point3D _light_source;
+		Point3D _light_source_ori;
+	};
 
 }

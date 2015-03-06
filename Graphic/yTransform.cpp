@@ -1,5 +1,6 @@
 #include"yTransform.h"
 #include"yMath.h"
+#include<amp_math.h>
 
 namespace yewbow
 {
@@ -33,6 +34,37 @@ namespace yewbow
 			0, 1, 0, 0,
 			0, 0, 1, 0,
 			dir.x, dir.y, dir.z, 1 };
+		return ret;
+	}
+
+	MatR4x4 RotateX(tReal angle)
+	{
+		tReal s = sin(angle);
+		tReal c = cos(angle);
+		MatR4x4 ret = { 1, 0,  0, 0,
+						0, c,  s, 0,
+						0, -s, c, 0,
+						0, 0,  0, 1 };
+		return ret;
+	}
+	MatR4x4 RotateY(tReal angle)
+	{
+		tReal s = sin(angle);
+		tReal c = cos(angle);
+		MatR4x4 ret = { c, 0, -s, 0,
+						0, 1, 0, 0,
+						s, 0, c, 0,
+						0, 0, 0, 1 };
+		return ret;
+	}
+	MatR4x4 RotateZ(tReal angle)
+	{
+		tReal s = sin(angle);
+		tReal c = cos(angle);
+		MatR4x4 ret = { c,  s, 0, 0,
+						-s, c, 0, 0,
+						0,  0, 1, 0,
+						0,  0, 0, 1 };
 		return ret;
 	}
 }

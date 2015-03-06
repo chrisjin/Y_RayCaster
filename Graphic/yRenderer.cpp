@@ -3,8 +3,41 @@
 #include<memory.h>
 using namespace yewbow;
 using namespace QuickCG;
+
+ColorRGBA MixLightColor(ColorRGBA c, tReal light)
+{
+	c.c1 = min(c.c1 + (tByte)light, 255);
+	c.c2 = min(c.c2 + (tByte)light, 255);
+	c.c3 = min(c.c3 + (tByte)light, 255);
+	c.c4 = min(c.c4 + (tByte)light, 255);
+
+	return c;
+}
+tReal ComputeLightBrightness(const Point3D& cross, const VecR3D& normal,
+	const Point3D& source, const Point3D& observer, tReal phone = 2, tReal light = 300)
+{
+	VecR3D inlight = Normalize(cross - source);
+	VecR3D nor = Normalize(normal);
+	tReal inangle = DotProduct(inlight, nor);
+	//if (inangle >= 0)
+	//	return 0;
+
+	VecR3D obdir = Normalize(observer - cross);
+	tReal obangle = DotProduct(obdir, nor);
+	//if (obangle <= 0)
+	//	return 0;
+
+	inangle = -inangle;
+	VecR3D outlight = inlight + nor*inangle*2;
+
+	tReal ret = 0.5*light*pow(DotProduct(outlight, obdir), phone);
+
+	return ret;
+}
 Renderer::Renderer()
 {
+	_light_source = Point3D(2,2,2);
+	_light_source_ori = Point3D(2,2, 2);
 	_vertexbuffer = 0;
 	_vertexbuffer_ori = 0;
 	_modelmat = Identity();
@@ -33,9 +66,10 @@ Renderer::Renderer()
 	unsigned long tw, th, error = 0;
 	
 	
-	loadImage(_texture, tw, th, "pics/eagle.png");
+	loadImage(_texture, tw, th, "pics/redbrick.png");
 
 	_is_vertexbufferdirty = 1;
+	_is_screenbufferdirty = 1;
 	//CreateVertexBuffer(eVertexType::XYZTTEX, 3);
 
 	//Vertex* varr = (Vertex*)_vertexbuffer->GetBuffer();
@@ -54,11 +88,13 @@ void Renderer::UpdateVertexBuffer()
 {
 	if (_is_vertexbufferdirty)
 	{
-		Vertex* varr =(Vertex*) _vertexbuffer->GetBuffer();
-		Vertex* varr_ori =(Vertex*) _vertexbuffer_ori->GetBuffer();
+		_light_source = _light_source_ori*_viewmat;
+		Vertex* varr = (Vertex*)_vertexbuffer->GetBuffer();
+		Vertex* varr_ori = (Vertex*)_vertexbuffer_ori->GetBuffer();
 		for (int i = 0; i < _vertexbuffer->GetSize(); i++)
 		{
 			varr[i].pos = varr_ori[i].pos*_modelmat*_viewmat;
+			varr[i].normal = varr_ori[i].normal*_modelmat*_viewmat;
 			varr[i].color = varr_ori[i].color;
 			varr[i].texcoor = varr_ori[i].texcoor;
 		}
@@ -76,11 +112,20 @@ VertexArray* Renderer::CreateVertexBuffer(eVertexType type, int num)
 	_is_vertexbufferdirty = true;
 	return _vertexbuffer_ori;
 }
-
+void Renderer::SetDirty()
+{
+	_is_vertexbufferdirty = true;
+	_is_screenbufferdirty = true;
+}
+void Renderer::RemoveDirty()
+{
+	_is_vertexbufferdirty = false;
+	_is_screenbufferdirty = false;
+}
 void Renderer::SetViewTransform(MatR4x4& v)
 {
 	_viewmat = v;
-	_is_vertexbufferdirty = 1;
+	SetDirty();
 }
 void Renderer::SetProjectTransform(MatR4x4& v)
 {
@@ -89,7 +134,7 @@ void Renderer::SetProjectTransform(MatR4x4& v)
 void Renderer::SetModelTransform(MatR4x4& m)
 {
 	_modelmat = m;
-	_is_vertexbufferdirty = 1;
+	SetDirty();
 }
 void Renderer::Update()
 {
@@ -164,7 +209,18 @@ void Renderer::Update()
 	//	y += this->_ystep;
 	//}
 }
-
+void Renderer::Begin()
+{
+	SetDirty();
+	for (int i = 0; i < _width * _height; i++)
+	{
+		_zbuffer[i] = 10000000000.0;
+	}
+	for (int i = 0; i < _width*_height; i++)
+	{
+		_buffer[i] = 0xA0A0A0;
+	}
+}
 void Renderer::DrawPrimitive(ePrimitiveType type, int vertexnum)
 {
 	UpdateVertexBuffer();
@@ -179,11 +235,16 @@ void Renderer::DrawPrimitive(ePrimitiveType type, int vertexnum)
 		break;
 
 	}
+	RemoveDirty();
 }
 void Renderer::DrawShaders(vector<TriangleShader*>& shaders)
 {
+	if (!_is_screenbufferdirty)
+		return;
 	tReal x = -(tReal)_width*_xstep / 2.0;
 	tReal y = -(tReal)_height*_ystep / 2.0;
+
+//#pragma omp parallel for
 	for (int i = 0; i < _height; i++)
 	{
 		for (int j = 0; j < _width; j++)
@@ -198,15 +259,20 @@ void Renderer::DrawShaders(vector<TriangleShader*>& shaders)
 				aflag = shaders[k]->ComputeTexcoor(dir, test);
 				if (aflag)
 				{
-					int xcoor = test.texcoor.x * 64;
-					int ycoor = test.texcoor.y * 64;
+
 					int offset = j*_height + i;
 					tReal& zvalue = this->_zbuffer[offset];
 					if (test.pos.z <= zvalue && test.pos.z >= _distance)
 					{
+						int xcoor = test.texcoor.x * 64;
+						int ycoor = test.texcoor.y * 64;
 						Uint32 color = _texture[ycoor * 64 + xcoor];
 						zvalue = test.pos.z;
-						this->_buffer[offset] = color;
+
+						tReal li = ComputeLightBrightness(test.pos, test.normal,
+							_light_source, Point3D(0, 0, 0));
+
+						this->_buffer[offset] = MixLightColor(color,li).rgba;
 					}
 				}
 			}
@@ -217,6 +283,8 @@ void Renderer::DrawShaders(vector<TriangleShader*>& shaders)
 		x = -(tReal)_width*_xstep / 2.0;
 		y += this->_ystep;
 	}
+	
+	RemoveDirty();
 }
 void Renderer::DrawTriangleList(int vertexnum)
 {

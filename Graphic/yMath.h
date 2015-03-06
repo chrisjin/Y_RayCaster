@@ -3,6 +3,7 @@
 #include"yVertexArray.h"
 
 using namespace yewbow;
+MatR4x4 operator*(const MatR4x4& mat1, const MatR4x4& mat2);
 VecR4D operator*(VecR4D& v, MatR4x4& m);
 VecR3D operator*(VecR3D& v, MatR4x4& m);
 VecR3D operator+(const VecR3D& v1, const VecR3D& v2);
@@ -21,6 +22,7 @@ ColorRGBA operator*(const ColorRGBA& v1, tReal a);
 namespace yewbow
 {
 	VecR3D Normalize(const VecR3D& normalize);
+	tReal  Length(const VecR3D& vec);
 	MatR4x4 Identity();
 
 

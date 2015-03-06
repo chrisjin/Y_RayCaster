@@ -14,7 +14,7 @@ int main(int /*argc*/, char */*argv*/[])
 {
 	
 	Renderer rdr;
-	rdr.SetViewTransform(LookAt(Point3D(3,3,3),Point3D(0,0,0),Point3D(1,1,-2)));
+	rdr.SetViewTransform(LookAt(Point3D(2,2,2),Point3D(0,0,0),Point3D(1,0,-1)));
 	//rdr.SetModelTransform(Translate(VecR3D(0,0,0)));
 	VertexArray* vbuffer;
 	Vertex* varr;
@@ -66,6 +66,9 @@ int main(int /*argc*/, char */*argv*/[])
 	varr[3].pos = Point3D(-1,1,1);
 	varr[3].texcoor = Point2D(0, 1);
 	varr[3].color = ColorRGBA(255, 0, 0);
+
+	varr[0].normal = varr[1].normal
+		= varr[2].normal = varr[3].normal = VecR3D(0,1,0);
 	/////////////////////////////////////////////////
 	varr[4].pos = Point3D(-1, -1, -1);
 	varr[4].texcoor = Point2D(0, 0);
@@ -82,6 +85,9 @@ int main(int /*argc*/, char */*argv*/[])
 	varr[7].pos = Point3D(-1, -1, 1);
 	varr[7].texcoor = Point2D(0, 1);
 	varr[7].color = ColorRGBA(255, 0, 0);
+
+	varr[4].normal = varr[5].normal
+		= varr[6].normal = varr[7].normal = VecR3D(0, -1, 0);
 	/////////////////////////////////////////////////
 	varr[8].pos = Point3D(-1, 1, -1);
 	varr[8].texcoor = Point2D(0, 0);
@@ -98,6 +104,9 @@ int main(int /*argc*/, char */*argv*/[])
 	varr[11].pos = Point3D(-1, 1, 1);
 	varr[11].texcoor = Point2D(0, 1);
 	varr[11].color = ColorRGBA(255, 0, 0);
+
+	varr[8].normal = varr[9].normal
+		= varr[10].normal = varr[11].normal = VecR3D(-1, 0, 0);
 	/////////////////////////////////////////////////
 	varr[12].pos = Point3D(1, 1, -1);
 	varr[12].texcoor = Point2D(0, 0);
@@ -114,6 +123,9 @@ int main(int /*argc*/, char */*argv*/[])
 	varr[15].pos = Point3D(1, 1, 1);
 	varr[15].texcoor = Point2D(0, 1);
 	varr[15].color = ColorRGBA(255, 0, 0);
+
+	varr[12].normal = varr[13].normal
+		= varr[14].normal = varr[15].normal = VecR3D(1, 0, 0);
 	/////////////////////////////////////////////////
 	varr[16].pos = Point3D(1, 1, 1);
 	varr[16].texcoor = Point2D(0, 0);
@@ -130,6 +142,9 @@ int main(int /*argc*/, char */*argv*/[])
 	varr[19].pos = Point3D(1, -1, 1);
 	varr[19].texcoor = Point2D(0, 1);
 	varr[19].color = ColorRGBA(255, 0, 0);
+
+	varr[16].normal = varr[17].normal
+		= varr[18].normal = varr[19].normal = VecR3D(0, 0, 1);
 	/////////////////////////////////////////////////
 	varr[20].pos = Point3D(-1,-1, -1);
 	varr[20].texcoor = Point2D(0, 0);
@@ -146,16 +161,38 @@ int main(int /*argc*/, char */*argv*/[])
 	varr[23].pos = Point3D(-1, 1, -1);
 	varr[23].texcoor = Point2D(0, 1);
 	varr[23].color = ColorRGBA(255, 0, 0);
+
+	varr[20].normal = varr[21].normal
+		= varr[22].normal = varr[23].normal = VecR3D(0, 0, -1);
 	/////////////////////////////////////////////////
-	rdr.DrawPrimitive(RECTANGLELIST,24);
+	
 
 
 	screen(rdr.GetWidth(), rdr.GetHeight(), 0, "Raycaster");
+	MatR4x4 tmat = Identity();
+	MatR4x4 rotate = RotateX(10.0*3.1415/180.0);
 	while (!done())
 	{
+		
+		
+		if (keyDown(SDLK_UP))
+		{
+			tmat = tmat*rotate;
+		}
+		if (keyDown(SDLK_DOWN))
+		{
+
+			tmat = tmat*rotate;
+		}
+		rdr.Begin();
+		rdr.SetModelTransform(tmat);
+		
+		rdr.DrawPrimitive(RECTANGLELIST, 24);
 		drawBuffer((Uint32*)rdr.GetBuffer());
 
 		redraw();
+		
+
 	}
 
 
@@ -164,6 +201,10 @@ int main(int /*argc*/, char */*argv*/[])
 					0, 2, 0, 0, 
 					0, 0, 1, 0, 
 					3, 2, 0, 1 };
+	MatR4x4 matk = { 1, 0, 3, 0,
+					0, 1, 0, 0,
+					0, 0, 1, 0,
+					0, 0, 0, 1 };
 	VecR4D r = v*mat;
 	Point3D p1 = {-1,-1,5};
 	Point3D p2 = { 1, -1, 5 };
@@ -177,7 +218,7 @@ int main(int /*argc*/, char */*argv*/[])
 	
 	for (int i = 0; i < 4; i++)
 	{
-		printf("%f ", r.c[i]);
+		printf("%f ", mat.cc[0][i]);
 	}
 	getchar();
 

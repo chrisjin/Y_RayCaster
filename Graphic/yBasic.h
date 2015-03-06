@@ -1,7 +1,7 @@
 #pragma once
 namespace yewbow
 {
-	typedef double tReal;
+	typedef float tReal;
 	typedef int    tI32;
 	typedef unsigned int    tUI32;
 	typedef unsigned char tByte;
@@ -9,6 +9,7 @@ namespace yewbow
 	{
 		ColorRGBA(){}
 		ColorRGBA(tByte rr, tByte gg, tByte bb, tByte aa = 0){ c1 = rr; c2 = gg; c3 = bb; c4 = aa; }
+		ColorRGBA(tUI32 c){ rgba = c; }
 		union
 		{
 			struct
@@ -85,7 +86,14 @@ namespace yewbow
 				T x31, x32, x33, x34;
 				T x41, x42, x43, x44;
 			};
-			T c[16];
+			struct
+			{
+				T c[16];
+			};
+			struct
+			{
+				T cc[4][4];
+			};
 		};
 
 
@@ -111,7 +119,10 @@ namespace yewbow
 			{
 				T p1, p2, p3, p4;
 			};
-			T c[4];
+			struct
+			{
+				T c[4];
+			};
 		};
 	};
 
