@@ -118,10 +118,10 @@ namespace yewbow
 		return sqrt(vec.x*vec.x +
 			vec.y*vec.y + vec.z*vec.z);
 	}
-	bool TriangleIntersection(const Triangle& tri, const Ray& ray, VecR3D& output)
-	{
-		return 1;
-	}
+	//bool TriangleIntersection(const Triangle& tri, const Ray& ray, VecR3D& output)
+	//{
+	//	return 1;
+	//}
 
 
 	tReal  DotProduct(const VecR3D& v1, const VecR3D& v2)
@@ -132,9 +132,9 @@ namespace yewbow
 	MatR4x4 Identity()
 	{
 		MatR4x4 mat = { 1, 0, 0, 0,
-			0, 1, 0, 0,
-			0, 0, 1, 0,
-			0, 0, 0, 1 };
+						0, 1, 0, 0,
+						0, 0, 1, 0,
+						0, 0, 0, 1 };
 		return mat;
 	}
 

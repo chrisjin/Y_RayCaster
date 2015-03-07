@@ -34,7 +34,7 @@ namespace yewbow
 	tReal  DotProduct(const VecR3D& v1, const VecR3D& v2);
 
 
-	bool TriangleIntersection(const Triangle& tri, const Ray& ray, VecR3D& output);
+	//bool TriangleIntersection(const Triangle& tri, const Ray& ray, VecR3D& output);
 
 	class UniformRandomDistribution
 	{

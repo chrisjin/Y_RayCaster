@@ -61,6 +61,7 @@ bool TriangleShader::ComputeTexcoor(const VecR3D& dir, Vertex& output)
 			break;
 		}
 	}
+	//TriangleIntersection(_p1.pos,_p2.pos,_p3.pos,dir,alpha,beta);
 	if (beta < 0 || alpha < 0 || (beta + alpha)>1)
 		return 0;
 	if (validflag == 0)

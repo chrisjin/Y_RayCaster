@@ -14,30 +14,31 @@ ColorRGBA MixLightColor(ColorRGBA c, tReal light)
 	return c;
 }
 tReal ComputeLightBrightness(const Point3D& cross, const VecR3D& normal,
-	const Point3D& source, const Point3D& observer, tReal phone = 2, tReal light = 300)
+	const Point3D& source, const Point3D& observer, tReal phone = 2, tReal light = 500)
 {
 	VecR3D inlight = Normalize(cross - source);
 	VecR3D nor = Normalize(normal);
+	tReal testt = Length(inlight);
 	tReal inangle = DotProduct(inlight, nor);
-	//if (inangle >= 0)
-	//	return 0;
+	if (inangle >= 0)
+		return 0;
 
 	VecR3D obdir = Normalize(observer - cross);
 	tReal obangle = DotProduct(obdir, nor);
-	//if (obangle <= 0)
-	//	return 0;
+	if (obangle <= 0)
+		return 0;
 
 	inangle = -inangle;
 	VecR3D outlight = inlight + nor*inangle*2;
-
+	tReal ll = Length(outlight);
 	tReal ret = 0.5*light*pow(DotProduct(outlight, obdir), phone);
 
 	return ret;
 }
 Renderer::Renderer()
 {
-	_light_source = Point3D(2,2,2);
-	_light_source_ori = Point3D(2,2, 2);
+	_light_source = Point3D(2,0,0);
+	_light_source_ori = Point3D(2,0, 0);
 	_vertexbuffer = 0;
 	_vertexbuffer_ori = 0;
 	_modelmat = Identity();
@@ -48,10 +49,10 @@ Renderer::Renderer()
 
 	_distance = 1;
 	_origin = Point3D(0, 0, 0);
-	_width = 800;
+	_width = 600;
 	_height = 600;
-	_xstep = 2/(tReal)_width;
-	_ystep = 2 / (tReal)_width;
+	_xstep = 1/(tReal)_width;
+	_ystep = 1 / (tReal)_width;
 	_buffer = new tI32[_width * _height];
 	for (int i = 0; i < _width*_height; i++)
 	{
@@ -93,8 +94,9 @@ void Renderer::UpdateVertexBuffer()
 		Vertex* varr_ori = (Vertex*)_vertexbuffer_ori->GetBuffer();
 		for (int i = 0; i < _vertexbuffer->GetSize(); i++)
 		{
-			varr[i].pos = varr_ori[i].pos*_modelmat*_viewmat;
-			varr[i].normal = varr_ori[i].normal*_modelmat*_viewmat;
+			VecR3D debug = varr_ori[i].pos*_modelmat;
+			varr[i].pos = (varr_ori[i].pos*_modelmat)*_viewmat;
+			varr[i].normal = varr_ori[i].normal*_modelmat*_viewmat - VecR3D(0, 0, 0)*_modelmat*_viewmat;
 			varr[i].color = varr_ori[i].color;
 			varr[i].texcoor = varr_ori[i].texcoor;
 		}
@@ -256,7 +258,9 @@ void Renderer::DrawShaders(vector<TriangleShader*>& shaders)
 			{
 				Vertex test;
 				bool aflag;
+				
 				aflag = shaders[k]->ComputeTexcoor(dir, test);
+			
 				if (aflag)
 				{
 
@@ -264,8 +268,8 @@ void Renderer::DrawShaders(vector<TriangleShader*>& shaders)
 					tReal& zvalue = this->_zbuffer[offset];
 					if (test.pos.z <= zvalue && test.pos.z >= _distance)
 					{
-						int xcoor = test.texcoor.x * 64;
-						int ycoor = test.texcoor.y * 64;
+						int xcoor = test.texcoor.x * 63;
+						int ycoor = test.texcoor.y * 63;
 						Uint32 color = _texture[ycoor * 64 + xcoor];
 						zvalue = test.pos.z;
 
