@@ -1,6 +1,7 @@
 Y_raycaster
 ============
 An experimental ray casting tool <br>
+* No OpenGL, No D3D.
 * ray cast
 * Primitives rendering
 * View Transform
