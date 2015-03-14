@@ -19,12 +19,14 @@ namespace yewbow
 		Point3D _ori;
 
 		VecR3D _p1p2Xp1p3;
-		VecR3D _p2p1Xp2p3;
+		//VecR3D _p2p1Xp2p3;
 		VecR3D _p1p2;
 		VecR3D _p1p3;
 		VecR3D _p2p3;
 		tReal _above;
-
+		
+		tReal _factor;
+		int   _factor_index;
 	};
 
 }

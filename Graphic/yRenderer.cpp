@@ -31,14 +31,16 @@ tReal ComputeLightBrightness(const Point3D& cross, const VecR3D& normal,
 	inangle = -inangle;
 	VecR3D outlight = inlight + nor*inangle*2;
 	tReal ll = Length(outlight);
-	tReal ret = 0.5*light*pow(DotProduct(outlight, obdir), phone);
+
+	tReal cosv = DotProduct(outlight, obdir);
+	tReal ret = 0.5*light*pow(cosv, phone);// +light*inangle;
 
 	return ret;
 }
 Renderer::Renderer()
 {
-	_light_source = Point3D(2,0,0);
-	_light_source_ori = Point3D(2,0, 0);
+	_light_source = Point3D(0,0,3);
+	_light_source_ori = Point3D(0,0, 3);
 	_vertexbuffer = 0;
 	_vertexbuffer_ori = 0;
 	_modelmat = Identity();
@@ -67,7 +69,7 @@ Renderer::Renderer()
 	unsigned long tw, th, error = 0;
 	
 	
-	loadImage(_texture, tw, th, "pics/redbrick.png");
+	loadImage(_texture, tw, th, "pics/bluestone.png");
 
 	_is_vertexbufferdirty = 1;
 	_is_screenbufferdirty = 1;
@@ -245,40 +247,43 @@ void Renderer::DrawShaders(vector<TriangleShader*>& shaders)
 		return;
 	tReal x = -(tReal)_width*_xstep / 2.0;
 	tReal y = -(tReal)_height*_ystep / 2.0;
+	
 
-//#pragma omp parallel for
 	for (int i = 0; i < _height; i++)
 	{
 		for (int j = 0; j < _width; j++)
 		{
 
 			VecR3D dir = { x, y, this->_distance };
+			Vertex vtodraw;
+			int xcoor = -1;
+			int ycoor = -1;
+			int offset = j*_height + i;
+			tReal& zvalue = this->_zbuffer[offset];
 
 			for (int k = 0; k < shaders.size(); k++)
 			{
-				Vertex test;
 				bool aflag;
-				
+				Vertex test;
 				aflag = shaders[k]->ComputeTexcoor(dir, test);
-			
 				if (aflag)
 				{
-
-					int offset = j*_height + i;
-					tReal& zvalue = this->_zbuffer[offset];
 					if (test.pos.z <= zvalue && test.pos.z >= _distance)
 					{
-						int xcoor = test.texcoor.x * 63;
-						int ycoor = test.texcoor.y * 63;
-						Uint32 color = _texture[ycoor * 64 + xcoor];
+						vtodraw = test;
+						xcoor = test.texcoor.x * 63;
+						ycoor = test.texcoor.y * 63;
 						zvalue = test.pos.z;
-
-						tReal li = ComputeLightBrightness(test.pos, test.normal,
-							_light_source, Point3D(0, 0, 0));
-
-						this->_buffer[offset] = MixLightColor(color,li).rgba;
 					}
 				}
+			}
+
+			if (xcoor != -1 && ycoor != -1)
+			{
+				Uint32 color = _texture[ycoor * 64 + xcoor];
+				tReal li = ComputeLightBrightness(vtodraw.pos, vtodraw.normal,
+					_light_source, Point3D(0, 0, 0));
+				this->_buffer[offset] = MixLightColor(color, li).rgba;
 			}
 
 			

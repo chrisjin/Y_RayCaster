@@ -50,7 +50,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\Home\WorkPlace\G\SDL-devel-1.2.15-VC\SDL-1.2.15\include</AdditionalIncludeDirectories>
@@ -85,9 +85,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\main.cpp" />
-    <ClCompile Include="..\..\raycaster_flat.cpp" />
-    <ClCompile Include="..\..\raycaster_floor.cpp" />
-    <ClCompile Include="..\..\raycaster_sprites.cpp" />
     <ClCompile Include="quickcg.cpp" />
     <ClCompile Include="SurfaceShader.cpp" />
     <ClCompile Include="yCamera.cpp" />

@@ -189,7 +189,7 @@ namespace yewbow
 	}
 	std::random_device rd;
 	std::mt19937_64 mt(rd());
-	std::uniform_real_distribution<double> distribution(0, 3.1415926 / 20.0);
+	std::uniform_real_distribution<double> distribution(0, 3.1415926 / 300);
 
 
 	tReal UniformRandomDistribution::GetValue()

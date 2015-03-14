@@ -2,6 +2,7 @@
 #include"yMath.h"
 #include<math.h>
 #include<stdlib.h>
+#define ABS(num) ((num)>0.0?(num):-(num))
 using namespace yewbow;
 void TriangleShader::SetTriangle(const Point3D& ori,
 	const Vertex& p1, const Vertex& p2, const Vertex& p3)
@@ -13,20 +14,37 @@ void TriangleShader::SetTriangle(const Point3D& ori,
 	_p1p2 = p2.pos - p1.pos;
 	_p1p3 = p3.pos - p1.pos;
 	_p2p3 = p3.pos - p2.pos;
-	_p1p2Xp1p3 = CrossProduct(p2.pos - p1.pos, p3.pos - p1.pos);
-	_p2p1Xp2p3 = CrossProduct(p1.pos - p2.pos, p3.pos - p2.pos);
+	_p1p2Xp1p3 = CrossProduct(_p1p2, _p1p3);
+	//_p2p1Xp2p3 = CrossProduct(p1.pos - p2.pos, p3.pos - p2.pos);
 
 	_above = DotProduct(ori - p1.pos, _p1p2Xp1p3);
+
+	for (int i = 0; i < 3; i++)
+	{
+		tReal factor = _p1p2Xp1p3.c[i];
+		if (factor != 0)
+		{
+			_factor = 1.0/factor;
+			_factor_index = i;
+			break;
+		}
+	}
 }
 
 bool TriangleShader::ComputeTexcoor(const VecR3D& dir, Vertex& output)
 {
+	if (!_factor)
+		return 0;
 	//VecR3D noise(UniformRandomDistribution::GetValue(),
 	//	UniformRandomDistribution::GetValue(), UniformRandomDistribution::GetValue());
 	//VecR3D dir = _dir +noise ;
 	tReal below = DotProduct(dir, _p1p2Xp1p3);
-	if (fabs(below) < 0.00001)
+	if (*(int*)(&below) == 0x7f800000)
+	{
 		return 0;
+	}
+	//if (ABS(below) < 0.00001)
+	//	return 0;
 	tReal t = -_above / below;
 
 	Point3D intersection = _ori + dir*t;
@@ -48,24 +66,26 @@ bool TriangleShader::ComputeTexcoor(const VecR3D& dir, Vertex& output)
 	
 	tReal alpha;
 	tReal beta;
-	bool validflag = 0;
-	tReal factor;
-	for (int i = 0; i < 3; i++)
-	{
-		factor = _p1p2Xp1p3.c[i];
-		if (factor != 0)
-		{
-			beta = -_p1pXp1p2.c[i] / factor;
-			alpha = _p1pXp1p3.c[i] / factor;
-			validflag = 1;
-			break;
-		}
-	}
+	//bool validflag = 0;
+	//tReal factor;
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	factor = _p1p2Xp1p3.c[i];
+	//	if (factor != 0)
+	//	{
+	//		beta = -_p1pXp1p2.c[i] / _factor;
+	//		alpha = _p1pXp1p3.c[i] / _factor;
+	//		validflag = true;
+	//		break;
+	//	}
+	//}
+	beta = -_p1pXp1p2.c[_factor_index] * _factor;
+	alpha = _p1pXp1p3.c[_factor_index] * _factor;
 	//TriangleIntersection(_p1.pos,_p2.pos,_p3.pos,dir,alpha,beta);
 	if (beta < 0 || alpha < 0 || (beta + alpha)>1)
 		return 0;
-	if (validflag == 0)
-		return 0;
+	//if (validflag == 0)
+	//	return 0;
 
 	//output = (_p2.texcoor - _p1.texcoor)*alpha
 	//	+ (_p3.texcoor - _p1.texcoor)*beta;

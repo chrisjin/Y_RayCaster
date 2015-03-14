@@ -5,9 +5,9 @@
 #include"yTransform.h"
 using namespace QuickCG;
 using namespace yewbow;
-#define OFFSETX (1)
-#define OFFSETY (1)
-#define OFFSETZ (9)
+#define OFFSETX (0)
+#define OFFSETY (0)
+#define OFFSETZ (0)
 #define screenWidth (400)
 #define screenHeight (300)
 Uint32 buffer[screenWidth][screenHeight];
@@ -16,7 +16,7 @@ int main(int /*argc*/, char */*argv*/[])
 {
 	
 	Renderer rdr;
-	rdr.SetViewTransform(LookAt(Point3D(0,0, 0), Point3D(0, 0,1), Point3D(0,1, 0)));
+	rdr.SetViewTransform(LookAt(Point3D(0,0, 0), Point3D(0,0,1), Point3D(0,1, 0)));
 	//rdr.SetModelTransform(Translate(VecR3D(0,0,0)));
 	VertexArray* vbuffer;
 	Vertex* varr;
@@ -171,24 +171,34 @@ int main(int /*argc*/, char */*argv*/[])
 
 
 	screen(rdr.GetWidth(), rdr.GetHeight(), 0, "Raycaster");
-	MatR4x4 tmat = Identity();
-	MatR4x4 rotate = RotateX(10.0*3.1415/180.0);
-	MatR4x4 trans = Translate(VecR3D(1, 0, 0));
-	MatR4x4 trans2 = Translate(VecR3D(-1, 0, 0));
+	MatR4x4 tmat = Translate(VecR3D(0, 0, 7));
+	rdr.SetModelTransform(tmat);
+	MatR4x4 rotate = RotateX(1.0*3.1415/180.0);
+	MatR4x4 trans = Translate(VecR3D(0.5, 0, 0));
+	MatR4x4 trans2 = Translate(VecR3D(-0.5, 0, 0));
+	tReal rangle = 1;
 	while (!done())
 	{
-		
-		
 		if (keyDown(SDLK_UP))
 		{
-			tmat = tmat*trans;
+			tmat = RotateX(rangle*3.1415 / 180.0)*Translate(VecR3D(0, 0, 7));
+			rangle += 10;
 			rdr.Begin();
 			rdr.SetModelTransform(tmat);
 		}
-		if (keyDown(SDLK_DOWN))
+		
+		if (keyDown(SDLK_RIGHT))
+		{
+			tmat = RotateY(rangle*3.1415 / 180.0)*Translate(VecR3D(0, 0, 7));
+			rangle -= 1;
+			rdr.Begin();
+			rdr.SetModelTransform(tmat);
+		}
+		if (keyDown(SDLK_LEFT))
 		{
 
-			tmat = tmat*trans2;
+			tmat = RotateY(rangle*3.1415 / 180.0)*Translate(VecR3D(0, 0, 7));
+			rangle += 1;
 			rdr.Begin();
 			rdr.SetModelTransform(tmat);
 		}

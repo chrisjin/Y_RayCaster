@@ -1,14 +1,12 @@
-﻿Build started 3/7/2015 4:50:08 PM.
+﻿Build started 3/14/2015 2:16:18 PM.
      1>Project "C:\Home\WorkPlace\G\Graphic\Graphic\Graphic.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Home\Programs\Visual Studio 2013\VC\bin\CL.exe /c /I"C:\Home\WorkPlace\G\SDL-devel-1.2.15-VC\SDL-1.2.15\include" /Z7 /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /openmp /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt SurfaceShader.cpp
+         C:\Home\Programs\Visual Studio 2013\VC\bin\CL.exe /c /I"C:\Home\WorkPlace\G\SDL-devel-1.2.15-VC\SDL-1.2.15\include" /Z7 /nologo /W3 /WX- /sdl /O2 /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /openmp /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt SurfaceShader.cpp
      1>cl : Command line warning D9007: '/Gm' requires '/Zi or /ZI'; option ignored
          SurfaceShader.cpp
+     1>SurfaceShader.cpp(27): warning C4244: '=' : conversion from 'double' to 'yewbow::tReal', possible loss of data
        Link:
          C:\Home\Programs\Visual Studio 2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Home\WorkPlace\G\Graphic\Debug\Graphic.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Home\WorkPlace\G\SDL-devel-1.2.15-VC\SDL-1.2.15\lib\x86" SDL.lib SDLmain.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Home\WorkPlace\G\Graphic\Debug\Graphic.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Home\WorkPlace\G\Graphic\Debug\Graphic.lib" /MACHINE:X86 Debug\main.obj
-         Debug\raycaster_flat.obj
-         Debug\raycaster_floor.obj
-         Debug\raycaster_sprites.obj
          Debug\quickcg.obj
          Debug\SurfaceShader.obj
          Debug\yCamera.obj
@@ -23,4 +21,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.70
+Time Elapsed 00:00:01.75
